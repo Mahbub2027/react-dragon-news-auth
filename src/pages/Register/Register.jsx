@@ -4,35 +4,43 @@ import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 
 
-const Login = () => {
-    const {loginUser} = useContext(AuthContext);
 
 
-    const handleLogin = e => {
+const Register = () => {
+
+    const {createUser} = useContext(AuthContext);    
+
+    const handleRegister = e =>{
         e.preventDefault();
-        const form = new FormData(e.currentTarget)
+        const form = new FormData(e.currentTarget);
+        const name = form.get('name');
         const email = form.get('email');
         const password = form.get('password');
-        console.log(email, password);
+        console.log(name, email, password)
 
-        loginUser(email, password)
+        createUser(email, password)
         .then(result => {
-            console.log(result.user);
+            console.log(result.user)
         })
         .catch(error => {
             console.log(error);
         })
-    }
 
-    
+    }
     return (
         <div>
             <Navbar></Navbar>
             
             <div className="mt-16 ">
-                <h2 className="text-center text-2xl font-semibold">Login your account</h2>
+                <h2 className="text-center text-2xl font-semibold">Register your account</h2> 
                 <div className="card mx-auto w-full max-w-sm  bg-base-100">
-                            <form onSubmit={handleLogin} className="card-body">
+                            <form onSubmit={handleRegister} className="card-body">
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Your Name</span>
+                                    </label>
+                                    <input type="text" name="name" placeholder="Enter your name" className="input input-bordered" required />
+                                </div>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Email Address</span>
@@ -49,9 +57,9 @@ const Login = () => {
                                     </label>
                                 </div>
                                 <div className="form-control mt-6">
-                                    <button className="py-2 w-full bg-gray-700 text-white font-bold">Login</button>
+                                    <button className="py-2 w-full bg-gray-700 text-white font-bold">Register</button>
                                 </div>
-                                <p>New here? Please <Link className="text-blue-700 underline" to='/register'>Register</Link></p>
+                                <p>Already have an account? Please <Link className="text-blue-700 underline" to='/login'>Login</Link></p>
                             </form>
                 </div>
             </div>
@@ -59,4 +67,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
