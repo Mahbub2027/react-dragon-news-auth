@@ -8,16 +8,20 @@ const auth = getAuth(app);
  const AuthProvider = ({children}) => {
 
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
    
     const createUser = (email, password) => {
+        setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
     const loginUser = (email, password) =>{
+        setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     }
 
     const logOut = () =>{
+        setLoading(true);
         return signOut(auth);
     }
 
@@ -25,6 +29,7 @@ const auth = getAuth(app);
         const unSubscribe = onAuthStateChanged(auth, (currentUser) =>{
             console.log('user in the current user changed', currentUser);
             setUser(currentUser);
+            setLoading(false)
         });
         return () => {
             unSubscribe();
@@ -37,6 +42,7 @@ const auth = getAuth(app);
         createUser,
         loginUser,
         logOut,
+        loading,
     }
 
     return (
